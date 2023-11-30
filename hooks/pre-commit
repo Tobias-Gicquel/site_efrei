@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Vérifier le nom de l'équipe
+EQUIPE="Équipe X"
+
+# Vérifier les membres de l'équipe
+MEMBRES=("Y" "Y" "Y")
+
+# Récupérer le message du commit
+message=$(git log --format=%B -n 1 HEAD)
+
+# Vérifier si l'équipe est l'auteur du commit et le message
+if [[ $(git config user.name) == "$EQUIPE" ]]; then
+	for membre in "${MEMBRES[@]}"; do
+		if [[ $message != *"$membre"* ]]; then
+			echo "Le message du commit doit contenir le nom de tous les membres de l'équipe."
+			exit 1
+		fi
+	done
+fi
